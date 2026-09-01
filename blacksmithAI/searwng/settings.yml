@@ -1,0 +1,10 @@
+use_default_settings: true
+
+server:
+  secret_key: "devkey"
+  limiter: false
+  image_proxy: true
+  base_url: "http://10.0.4.1:8888/"
+
+botdetection:
+  enabled: false
