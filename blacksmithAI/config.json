@@ -1,0 +1,114 @@
+{
+    "defaults":{
+        "provider": "openai"
+    },
+    "provider":{
+        "openai": {
+            "base_url": "https://llm.openrama.tech.orange",
+            "default_model": "minimax-m2.5",
+            "default_embedding_model": "bge-m3",
+            "default_model_config": {
+                "context_size": 200000,
+                "max_retries": 3,
+                "stream_usage": true,
+                "max_tokens": null,
+                "safety_margin_percent": 30,
+                "max_result_chars": null
+            },
+            "default_embedding_model_config": {
+                "max_retries": 3,
+                 "embedding_ctx_length": 8191
+            }
+        }
+    },
+    "retry_config": {
+        "orchestrator_max_retries": 1,
+        "subagent_max_retries": 1,
+        "model_max_retries": 1,
+        "note": "Retry strategy: orchestrator handles failures via subagent coordination, not tool retries. Each level set to 1 to avoid cascading retries."
+    },
+
+   "searxng": {
+    "url": "http://10.0.4.1:8888",
+    "timeout": 30,
+    "max_results": 50,
+    "description": "SearXNG metasearch engine for internet access"
+},
+    "tools":{
+
+        "reconnaissance": [
+        "whois",
+        "dnsutils (dig/nslookup)",
+        "dnsrecon",
+        "assetfinder",
+        "subfinder",
+        "theharvester",
+        "amass",
+        "fierce",
+        "dnsx",
+        "httpx",
+        "recon-ng"
+    ],
+    "scanning_enumeration": [
+        "nmap",
+        "masscan",
+        "rustscan",
+        "nikto",
+        "gobuster",
+        "feroxbuster",
+        "ffuf",
+        "dirb",
+        "enum4linux-ng",
+        "smbmap",
+        "netexec",
+        "wpscan"
+    ],
+    "vulnerability_mapping": [
+        "nuclei",
+        "sslscan",
+        "searchsploit",
+        "whatweb",
+        "wafw00f"
+    ],
+    "exploitation": [
+        "sqlmap",
+        "hydra",
+        "medusa",
+        "ncrack",
+        "commix",
+        "responder",
+        "msfconsole (path: /opt/metasploit/msfconsole)"
+    ],
+    "post_exploitation": [
+        "netcat",
+        "socat",
+        "hping3",
+        "proxychains4",
+        "chisel",
+        "bloodhound",
+        "impacket CLIs (psexec, smbclient, secretsdump)"
+    ],
+    "passwords_crypto": [
+        "hashcat",
+        "john",
+        "crunch",
+        "cewl"
+    ],
+    "general": [
+        "python3",
+        "pip3",
+        "Go toolchain (go install tools)",
+        "build-essential",
+        "gcc",
+        "gdb",
+        "strace",
+        "flask",
+        "httpie",
+        "curl",
+        "ssh",
+        "ruby",
+        "gem",
+        "npm"
+    ]
+    }
+}

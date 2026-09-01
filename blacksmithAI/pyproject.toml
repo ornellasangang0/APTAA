@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "blacksmithAI"
+version = "1.0.0"
+description = "AI Powered Penetration Testing"
+readme = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+    # Core LangChain/LangGraph stack – pinned to exact working versions from Device 1
+    "langchain==1.2.10",
+    "langchain-core==1.2.13",
+    "langchain-community==0.4.1",
+    "langchain-chroma==1.1.0",
+    "langchain-text-splitters==1.1.0",
+    "langchain-openai==1.1.9",
+    "langchain-mcp-adapters==0.2.1",
+    "langgraph==1.0.8",
+    "langgraph-checkpoint==4.0.0",
+    "langgraph-prebuilt==1.0.7",
+    "langgraph-sdk==0.3.6",
+    # CLI with inmem extra – pinned carefully (this extra often pulls newer langgraph-api)
+    "langgraph-cli[inmem]==0.4.12",
+    # API server components – these were the main source of drift on Device 2
+    "langgraph-api==0.7.37",
+    # LLM providers – pinned to working versions (newer ones caused issues)
+    "anthropic==0.79.0",
+    "openai==2.21.0",
+    "langchain-google-genai==4.2.0",          # even if not used yet, better to pin
+    # Other critical supporting packages
+    "deepagents==0.4.1",
+    "pydantic==2.12.5",
+    "pydantic-settings==2.12.0",
+    "starlette==0.52.1",                      # prevents jump to 1.0.0 which can break things
+    "chromadb==1.5.0",
+    # Utilities
+    "dotenv>=0.9.9",
+    "duckduckgo-search>=8.1.1",
+    "huggingface-hub>=1.4.1",                 # bumped slightly from your original for safety
+    "rich>=14.3.2",
+]
+
+# Optional: Add these if you want even stricter control (highly recommended)
+[tool.uv]
+# This tells UV to respect exact pins and not upgrade transitives unless you ask
+resolution = "highest"   # or "lowest-direct" for more conservative
+
+[tool.setuptools.packages.find]
+include = ["store", "agents", "outputs", "tools", "utils"]
