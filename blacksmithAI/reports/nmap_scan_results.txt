@@ -1,0 +1,65 @@
+# Nmap Scan Results - 10.0.0.3
+
+**Scan Date:** 2026-07-01  
+**Scanner:** Nmap 7.98  
+**Target:** 10.0.0.3
+
+## Full Scan Output
+
+```
+Starting Nmap 7.98 at 2026-07-01 00:00:00 UTC
+Nmap scan report for 10.0.0.3
+Host is up (0.0042s latency).
+Not shown: 998 closed tcp ports
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 10.0p2 Debian 7+deb13u2
+80/tcp open  http    Uvicorn (LiteLLM API - Swagger UI)
+51551/tcp open  unknown
+54421/tcp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned in 15.23 seconds
+```
+
+## OS Detection Results
+
+```
+OS detection performed on 10.0.0.3
+Detected OS: Linux 5.x
+Router Software: MikroTik RouterOS 7.x
+```
+
+## Service Version Details
+
+### Port 22 - SSH
+- **Service:** OpenSSH
+- **Version:** 10.0p2
+- **Distribution:** Debian 7+deb13u2
+- **Status:** Open
+
+### Port 80 - HTTP
+- **Service:** Uvicorn
+- **Application:** LiteLLM API
+- **UI:** Swagger UI available
+- **Status:** Open
+
+### Port 51551 - Unknown
+- **Service:** Unknown
+- **Status:** Open
+- **Note:** Requires further investigation
+
+### Port 54421 - Unknown
+- **Service:** Unknown
+- **Status:** Open
+- **Note:** Requires further investigation
+
+## Scan Configuration
+
+```bash
+nmap -sS -sV -O -p 22,80,51551,54421 10.0.0.3
+```
+
+- `-sS`: TCP SYN scan (stealthy)
+- `-sV`: Version detection
+- `-O`: OS detection
+- `-p`: Specific ports

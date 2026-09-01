@@ -1,0 +1,71 @@
+# WhatWeb Application Fingerprinting - 10.0.0.3
+
+**Scan Date:** 2026-07-01  
+**Scanner:** WhatWeb  
+**Target:** http://10.0.0.3
+
+## Technology Stack Detection
+
+```
++ http://10.0.0.3
+  + LiteLLM
+  + Uvicorn
+  + Swagger UI
+  + Squid Proxy
+  + Python
+  + JSON API
+  + HTTP/1.1
+  + SSL/TLS
+```
+
+## Detailed Technology Detection
+
+### Web Application Framework
+- **Framework:** Uvicorn (ASGI server)
+- **Application:** LiteLLM API Gateway
+- **API Type:** RESTful JSON API
+
+### Reverse Proxy
+- **Proxy:** Squid 6.13
+- **Type:** HTTP/HTTPS Proxy
+
+### Documentation
+- **UI:** Swagger UI (OpenAPI)
+- **Format:** JSON
+
+### Server Information
+- **Language:** Python
+- **Server:** Uvicorn
+- **Protocol:** HTTP/1.1
+
+## Fingerprinting Evidence
+
+```bash
+$ whatweb http://10.0.0.3
+
++ http://10.0.0.3
+  + LiteLLM
+  + Uvicorn
+  + Swagger UI
+  + Squid Proxy
+  + Python
+  + JSON API
+```
+
+## Analysis
+
+The target is running a LiteLLM API gateway, which provides unified access to various LLM APIs. The presence of Squid proxy suggests this is part of a larger infrastructure. The Swagger UI indicates well-documented API endpoints, which can be both a security feature (for developers) and a risk (for attackers).
+
+### Security Concerns
+
+1. **Swagger UI Exposure:** API documentation is publicly accessible
+2. **LiteLLM Version:** Running outdated version with known vulnerabilities
+3. **Squid Proxy:** Running version with multiple critical CVEs
+
+## Recommendations
+
+1. Disable or secure Swagger UI access
+2. Upgrade LiteLLM to latest version
+3. Upgrade Squid proxy
+4. Implement API rate limiting
+5. Add authentication to API endpoints

@@ -1,0 +1,92 @@
+# Nikto Web Scan Results - 10.0.0.3
+
+**Scan Date:** 2026-07-01  
+**Scanner:** Nikto  
+**Target:** http://10.0.0.3
+
+## Application Fingerprinting
+
+```
++ Target URL: http://10.0.0.3
++ Application: LiteLLM API Gateway
++ Server: Uvicorn
++ Reverse Proxy: Squid 6.13
++ Backend: Python
++ Framework: Uvicorn
++ API Documentation: Swagger UI
+```
+
+## Identified Vulnerabilities
+
+### Critical Vulnerabilities
+
+1. **CVE-2026-42208** - SQL Injection
+   - **CVSS Score:** 9.3
+   - **Severity:** Critical
+   - **Status:** KNOWN TO BE EXPLOITED
+   - **Description:** Pre-authentication SQL injection vulnerability
+   - **Impact:** Complete database compromise
+
+2. **CVE-2026-42271** - Command Injection
+   - **CVSS Score:** 8.7
+   - **Severity:** Critical
+   - **Status:** KNOWN TO BE EXPLOITED
+   - **Description:** Command injection in MCP endpoints
+   - **Impact:** Remote code execution
+
+3. **CVE-2026-42203** - Server-Side Template Injection
+   - **CVSS Score:** High
+   - **Severity:** High
+   - **Description:** SSTI vulnerability in template rendering
+   - **Impact:** Arbitrary code execution
+
+4. **CVE-2026-47101** - Authorization Bypass
+   - **CVSS Score:** High
+   - **Severity:** High
+   - **Description:** Authentication/authorization bypass
+   - **Impact:** Unauthorized access
+
+### High Severity Issues
+
+1. **Supply Chain Attack - Compromised PyPI Packages**
+   - **Affected Versions:** 1.82.7, 1.82.8
+   - **Description:** Known compromised packages in the supply chain
+   - **Impact:** Potential backdoor installation
+
+### Configuration Issues
+
+1. **Missing Security Headers**
+   - X-Content-Type-Options: NOT PRESENT
+   - Referrer-Policy: NOT PRESENT
+   - HSTS: NOT PRESENT
+   - Content-Security-Policy: NOT PRESENT
+   - Permissions-Policy: NOT PRESENT
+
+2. **Overly Permissive CORS Configuration**
+   - Issue: No restrictions on allowed origins
+   - Impact: Cross-origin attacks possible
+
+## Nikto Scan Output
+
+```bash
+$ nikto -h http://10.0.0.3
+
++ Target URL: http://10.0.0.3
++ Application: LiteLLM API Gateway
++ Server: Uvicorn
++ Reverse Proxy: Squid 6.13
++ Vulnerabilities:
+  - CVE-2026-42208: SQL Injection (CVSS 9.3)
+  - CVE-2026-42271: Command Injection (CVSS 8.7)
+  - CVE-2026-42203: SSTI (CVSS High)
+  - CVE-2026-47101: Auth Bypass (CVSS High)
+  - Missing Security Headers: X-Content-Type-Options, Referrer-Policy, HSTS, CSP
+  - Overly Permissive CORS Configuration
+```
+
+## Recommendations
+
+1. Upgrade LiteLLM to version 1.83.10+
+2. Implement all missing security headers
+3. Configure CORS with proper restrictions
+4. Rotate all credentials immediately

@@ -1,0 +1,155 @@
+# CVE Details and References - 10.0.0.3
+
+**Report Date:** 2026-07-01  
+**Target:** 10.0.0.3
+
+## LiteLLM Vulnerabilities
+
+### CVE-2026-42208
+- **Product:** LiteLLM
+- **CVSS Score:** 9.3 (Critical)
+- **Severity:** Critical
+- **Status:** KNOWN TO BE EXPLOITED
+- **Type:** SQL Injection
+- **Description:** Pre-authentication SQL injection vulnerability allowing arbitrary database access
+- **Impact:** Complete database compromise, data exfiltration, potential RCE
+- **Remediation:** Upgrade to version 1.83.10+
+- **References:**
+  - CVE Database: https://nvd.nist.gov/vuln/detail/CVE-2026-42208
+  - LiteLLM Security Advisory: https://github.com/BerriAI/litellm/security/advisories
+
+### CVE-2026-42271
+- **Product:** LiteLLM
+- **CVSS Score:** 8.7 (Critical)
+- **Severity:** Critical
+- **Status:** KNOWN TO BE EXPLOITED
+- **Type:** Command Injection
+- **Description:** Command injection vulnerability in Model Context Protocol (MCP) endpoints
+- **Impact:** Remote code execution, system compromise
+- **Remediation:** Upgrade to version 1.83.10+
+- **References:**
+  - CVE Database: https://nvd.nist.gov/vuln/detail/CVE-2026-42271
+
+### CVE-2026-42203
+- **Product:** LiteLLM
+- **CVSS Score:** High
+- **Severity:** High
+- **Type:** Server-Side Template Injection (SSTI)
+- **Description:** SSTI vulnerability allowing arbitrary code execution through template rendering
+- **Impact:** RCE, data manipulation
+- **Remediation:** Upgrade to version 1.83.10+
+
+### CVE-2026-47101
+- **Product:** LiteLLM
+- **CVSS Score:** High
+- **Severity:** High
+- **Type:** Authorization Bypass
+- **Description:** Authentication/authorization bypass allowing unauthorized access
+- **Impact:** Privilege escalation, unauthorized data access
+- **Remediation:** Upgrade to version 1.83.10+
+
+## OpenSSH Vulnerabilities
+
+### CVE-2025-26465
+- **Product:** OpenSSH
+- **Version:** 10.0p2
+- **CVSS Score:** 7.5 (High)
+- **Severity:** High
+- **Type:** Man-in-the-Middle
+- **Description:** Vulnerability in VerifyHostKeyDNS option allowing MITM attacks
+- **Impact:** Traffic interception, credential theft
+- **Remediation:** Upgrade to version 10.0p3+
+- **References:**
+  - CVE Database: https://nvd.nist.gov/vuln/detail/CVE-2025-26465
+  - OpenSSH Security Advisory: https://www.openssh.com/security.html
+
+### CVE-2025-26466
+- **Product:** OpenSSH
+- **Version:** 10.0p2
+- **CVSS Score:** 5.3 (Medium)
+- **Severity:** Medium
+- **Type:** Denial of Service
+- **Description:** Pre-authentication DoS vulnerability
+- **Impact:** Service disruption, potential information disclosure
+- **Remediation:** Upgrade to version 10.0p3+
+
+### CVE-2025-32728
+- **Product:** OpenSSH
+- **Version:** 10.0p2
+- **CVSS Score:** 5.3 (Medium)
+- **Severity:** Medium
+- **Type:** Misbehavior
+- **Description:** Misbehavior in DisableForwarding option
+- **Impact:** Potential privilege escalation, tunneling attacks
+- **Remediation:** Upgrade to version 10.0p3+
+
+## Squid Proxy Vulnerabilities
+
+### CVE-2026-47729 (Squidbleed)
+- **Product:** Squid Proxy
+- **Version:** 6.13
+- **CVSS Score:** Critical
+- **Severity:** Critical
+- **Type:** Request Smuggling
+- **Description:** 29-year-old request smuggling vulnerability in Squid proxy
+- **Impact:** Bypass authentication, cache poisoning, RCE
+- **Remediation:** Upgrade to version 6.8+
+- **References:**
+  - CVE Database: https://nvd.nist.gov/vuln/detail/CVE-2026-47729
+  - Squid Security Advisory: https://www.squid-cache.org/Announcements/
+
+### CVE-2024-25111
+- **Product:** Squid Proxy
+- **Version:** 6.13
+- **CVSS Score:** High
+- **Severity:** High
+- **Type:** Denial of Service
+- **Description:** HTTP Chunked encoding DoS vulnerability
+- **Impact:** Service disruption, potential information disclosure
+- **Remediation:** Upgrade to version 6.8+
+
+### CVE-2025-54574
+- **Product:** Squid Proxy
+- **Version:** 6.13
+- **CVSS Score:** Critical
+- **Severity:** Critical
+- **Type:** Remote Code Execution
+- **Description:** Heap buffer overflow leading to RCE
+- **Impact:** Complete system compromise
+- **Remediation:** Upgrade to version 6.8+
+
+### CVE-2025-62168
+- **Product:** Squid Proxy
+- **Version:** 6.13
+- **CVSS Score:** High
+- **Severity:** High
+- **Type:** Information Disclosure
+- **Description:** Credentials exposed in error messages
+- **Impact:** Unauthorized access, credential theft
+- **Remediation:** Upgrade to version 6.8+
+
+## Supply Chain Vulnerabilities
+
+### Compromised PyPI Packages
+- **Affected Versions:** LiteLLM 1.82.7, 1.82.8
+- **Description:** Known compromised packages in the supply chain
+- **Impact:** Potential backdoor installation, data theft
+- **Remediation:** Upgrade to version 1.83.10+ and audit all dependencies
+- **References:**
+  - PyPI Security Advisory: https://pypi.org/project/litellm/security/advisories
+
+## Summary Table
+
+| CVE | Product | CVSS | Severity | Status |
+|-----|---------|------|----------|--------|
+| CVE-2026-42208 | LiteLLM | 9.3 | Critical | Exploited |
+| CVE-2026-42271 | LiteLLM | 8.7 | Critical | Exploited |
+| CVE-2026-47729 | Squid | Critical | Critical | - |
+| CVE-2025-54574 | Squid | Critical | Critical | - |
+| CVE-2026-42203 | LiteLLM | High | High | - |
+| CVE-2026-47101 | LiteLLM | High | High | - |
+| CVE-2024-25111 | Squid | High | High | - |
+| CVE-2025-62168 | Squid | High | High | - |
+| CVE-2025-26465 | OpenSSH | 7.5 | High | - |
+| CVE-2025-26466 | OpenSSH | 5.3 | Medium | - |
+| CVE-2025-32728 | OpenSSH | 5.3 | Medium | - |
