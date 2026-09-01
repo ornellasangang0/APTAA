@@ -1,0 +1,100 @@
+volumes:
+    blacksmith-data:
+        driver: local
+services:
+    blacksmith-redis:
+        image: redis:7-alpine
+        ports:
+            - "127.0.0.1:2323:6379"
+        healthcheck:
+            test: redis-cli ping
+            interval: 5s
+            timeout: 1s
+            retries: 5
+
+    blacksmith-postgres:
+        image: postgres:latest
+        ports:
+            - "127.0.0.1:2345:5432"
+        environment:
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        volumes:
+            - ./blacksmith-data:/var/lib/postgresql
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+            start_period: 10s
+            timeout: 1s
+            retries: 5
+            interval: 5s
+
+    mini-kali-slim:
+        image: yohannesgk/mini-kali-slim
+        container_name: mini-kali-slim
+        restart: unless-stopped
+        read_only: true
+        tmpfs:
+          - /tmp
+          - /run
+          - /var/tmp
+          - /var/log
+          - /var/lib
+          - /var/lock
+          - /var/run
+        ports:
+          - "127.0.0.1:9756:9756"
+        healthcheck:
+          test: ["CMD", "curl", "-f", "http://localhost:9756/health"]
+          interval: 30s
+          timeout: 10s
+          retries: 3
+          start_period: 40s
+
+    blacksmithV1:
+        image: blacksmith_v1
+        ports:
+            - "127.0.0.1:2024:8000"
+        depends_on:
+            blacksmith-redis:
+                condition: service_healthy
+            blacksmith-postgres:
+                condition: service_healthy
+            mini-kali-slim:
+                condition: service_healthy
+        deploy:
+            resources:
+                limits:
+                    memory: 512M
+                    cpus: '0.5'
+                reservations:
+                    memory: 256M
+                    cpus: '0.25'
+        volumes:
+            # - ./blacksmithAI/config.json:/deps/blacksmithAI/config.json:ro
+            - ./blacksmithAI:/deps/blacksmithAI
+        env_file:
+            #- ./blacksmithAI/.env  # This loads all variables from .env
+            - ./.env  # This loads all variables from .env
+        environment:
+            REDIS_URI: redis://blacksmith-redis:6379
+            DATABASE_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@blacksmith-postgres:5432/${POSTGRES_DB}?sslmode=disable
+            container_uri: http://mini-kali-slim:9756/exec
+            #LANGCHAIN_TRACING_V2: "false"
+            OTEL_SDK_DISABLED: "true"
+            N_JOBS_PER_WORKER: "10"  # Reduce concurrent background jobs
+            BG_JOB_TIMEOUT_SECS: "300"  # 5 minutes max per job
+            LANGGRAPH_POSTGRES_POOL_MAX_SIZE: "10"  # Reduce DB connections
+            WORKERS_PER_CORE: "1"  # Only one worker per core
+            MAX_WORKERS: "1"  # Force single worker
+            WEB_CONCURRENCY: "1"  # Single process for Uvicorn
+  
+            # MEMORY OPTIMIZATIONS
+            PYTHONOPTIMIZE: "2"  # Optimize Python bytecode
+            PYTHONHASHSEED: "random"  # Better memory randomization
+            MALLOC_TRIM_THRESHOLD_: "131072"  # Aggressive memory freeing
+
+            # Memory limits via Docker (compose v3)
+            mem_limit: 768m
+            mem_reservation: 384m
+            cpu_shares: 512
